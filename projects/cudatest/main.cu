@@ -1,68 +1,55 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include "cuda_buffer.h"
+#include "cuda_error.h"
+
+#include <cuda_runtime_api.h>
+
+#include <iostream>
+#include <iterator>
+#include <vector>
+
+using namespace CudaUtil;
 
 
-__global__ void vecAdd(double *a, double *b, double *c, int n)
-{
-    int id = blockIdx.x*blockDim.x+threadIdx.x;
-    if (id < n)
-        c[id] = a[id] + b[id];
+__global__ void Kernel(float* in1, float* in2, float* out, int n) {
+    unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        out[i] = in1[i] + in2[i];
+    }
 }
 
-int main( int argc, char* argv[] )
-{
-    int n = 100000;
 
-    double *h_a;
-    double *h_b;
-    double *h_c;
+void AddGPU(float* in1, float* in2, float* out, int n) {
+    CudaBuffer<float> deviceInput1(in1, n);
+    CudaBuffer<float> deviceInput2(in2, n);
+    CudaBuffer<float> deviceOutput(n);
 
-    double *d_a;
-    double *d_b;
-    double *d_c;
+    unsigned int blockSize = 1024;
+    unsigned int gridSize = (n - 1) / blockSize + 1;
 
-    size_t bytes = n*sizeof(double);
+    Kernel<<<gridSize, blockSize>>>(deviceInput1.getData(),
+                                    deviceInput2.getData(),
+                                    deviceOutput.getData(),
+                                    n);
 
-    h_a = (double*)malloc(bytes);
-    h_b = (double*)malloc(bytes);
-    h_c = (double*)malloc(bytes);
+    deviceOutput.copyToHost(out);
+}
 
-    cudaMalloc(&d_a, bytes);
-    cudaMalloc(&d_b, bytes);
-    cudaMalloc(&d_c, bytes);
 
-    int i;
-    for( i = 0; i < n; i++ ) {
-        h_a[i] = sin(i)*sin(i);
-        h_b[i] = cos(i)*cos(i);
-    }
+int main(int argc, const char** argv) {
+    int n;
+    std::cin >> n;
+    std::vector<float> v1(n);
+    std::vector<float> v2(n);
+    for (int i = 0; i < n; ++i) std::cin >> v1[i];
+    for (int i = 0; i < n; ++i) std::cin >> v2[i];
 
-    cudaMemcpy( d_a, h_a, bytes, cudaMemcpyHostToDevice);
-    cudaMemcpy( d_b, h_b, bytes, cudaMemcpyHostToDevice);
+    std::vector<float> res(n);
+    AddGPU(v1.data(), v2.data(), res.data(), n);
 
-    int blockSize, gridSize;
-
-    blockSize = 1024;
-
-    gridSize = (int)ceil((float)n/blockSize);
-
-    vecAdd<<<gridSize, blockSize>>>(d_a, d_b, d_c, n);
-
-    cudaMemcpy( h_c, d_c, bytes, cudaMemcpyDeviceToHost );
-
-    double sum = 0;
-    for(i=0; i<n; i++)
-        sum += h_c[i];
-    printf("final result: %f\n", sum/n);
-
-    cudaFree(d_a);
-    cudaFree(d_b);
-    cudaFree(d_c);
-
-    free(h_a);
-    free(h_b);
-    free(h_c);
+    std::copy(res.begin(), res.end(),
+            std::ostream_iterator<float>(std::cout, " "));
+    std::cout << std::endl;
 
     return 0;
 }
+
