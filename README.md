@@ -4,6 +4,7 @@
 
 
 ## CUDA
+See [projects/cudatest](https://github.com/drsmithization/yggdrasil_demo/tree/master/projects/cudatest)
 
 
 ## Unit Testing
