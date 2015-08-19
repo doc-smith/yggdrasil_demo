@@ -1,6 +1,7 @@
 SET(ROOT_PROJECTS
     library
     projects/summator
+    projects/cudatest
 )
 
 
