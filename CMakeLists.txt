@@ -5,4 +5,4 @@ SET(ROOT_PROJECTS
 )
 
 
-INCLUDE(${CMAKE_SOURCE_DIR}/yggdrasil/cmake/include/all.cmake NO_POLICY_SCOPE)
+INCLUDE(${CMAKE_SOURCE_DIR}/yggdrasil/cmake/include/all.cmake)
