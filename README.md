@@ -2,6 +2,43 @@
 
 ## Quick Guide
 
+```cmake
+PROGRAM()
+
+# specify all project .cpp files here
+SRCS (
+    a.cpp
+    b.cpp
+    c.cu # Yggdrasil supports CUDA
+    main.cpp
+)
+
+# dependencies
+PEERDIR (
+    libs/x
+    libs/y
+    
+    # add ADDINCL if you don't want to build a library
+    #    (only modify include paths)
+    ADDINCL libs/z
+)
+
+END()
+```
+
+```cmake
+LIBRARY()
+
+SRCS (
+    ...
+)
+
+PEERDIR (
+    ...
+)
+
+END()
+```
 
 ## CUDA
 See [projects/cudatest](https://github.com/drsmithization/yggdrasil_demo/tree/master/projects/cudatest)
