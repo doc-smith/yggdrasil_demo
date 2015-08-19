@@ -20,3 +20,9 @@ TEST(TestSum, MyTestSum) {
     EXPECT_EQ(sum(3, 2), 5);
 }
 ```
+
+```bash
+$ cd build
+$ cmake -DUT_PERDIR=yes ../
+$ make library-sum_ut
+```
