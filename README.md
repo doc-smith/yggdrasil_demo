@@ -54,6 +54,15 @@ RECURSE (
 )
 ```
 
+## local.cmake
+You can create the local.cmake file in the build directory to control generation process using predefined options. For example:
+```
+SET(MY_GCC gcc-5.0)
+SET(MY_GPP g++-5.0)
+SET(USE_STATIC_CPP_RUNTIME no)
+ENABLE(NOSSE)
+```
+
 ## Quick Examples
 
 Build and run unit tests from library/x:
