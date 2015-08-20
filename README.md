@@ -2,6 +2,9 @@
 
 ## Quick Guide
 
+In most cases you will need only three basic templates: for executable programs, static/dynamic libraries and for specifying subprojects in subdirectories.
+Here is a basic template for executable targets:
+
 ```cmake
 PROGRAM()
 
@@ -26,6 +29,7 @@ PEERDIR (
 END()
 ```
 
+Static library template is very similar to PROGRAM (see [library/sum/CMakeLists.txt](https://github.com/drsmithization/yggdrasil_demo/blob/master/library/sum/CMakeLists.txt)):
 ```cmake
 LIBRARY()
 
@@ -40,10 +44,13 @@ PEERDIR (
 END()
 ```
 
+And if you just want to list subprojects:
+(see [library/CMakeLists.txt](https://github.com/drsmithization/yggdrasil_demo/blob/master/library/CMakeLists.txt))
 ```cmake
 RECURSE (
     subprojects
 )
+```
 
 ## CUDA
 See [projects/cudatest](https://github.com/drsmithization/yggdrasil_demo/tree/master/projects/cudatest)
