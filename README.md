@@ -1,5 +1,7 @@
 # Yggdrasil Demo
 
+[Yggdrasil](https://github.com/drsmithization/yggdrasil) is a C++ oriented cmake-based build infrastructure adapted from https://github.com/yandex/balancer. This project is an usage example of Yggdrasil.
+
 ## Quick Guide
 
 In most cases you will need only three basic templates: for executable programs, static/dynamic libraries and for specifying subprojects in subdirectories.
