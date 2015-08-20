@@ -54,6 +54,25 @@ RECURSE (
 )
 ```
 
+## Quick Examples
+
+Build and run unit tests from library/x:
+```bash
+$ cmake -DUT_PERDIR ../
+$ make library-x_ut
+$ bin/library-x_ut
+```
+
+Release build (default is Debug):
+```bash
+$ cmake -DCMAKE_BUILD_TYPE=Release ../
+```
+
+Build only the project projects/xproj
+```bash
+$ cmake -DCMAKE_BUILD_ONLY=projects/xproj ../
+```
+
 ## CUDA
 See [projects/cudatest](https://github.com/drsmithization/yggdrasil_demo/tree/master/projects/cudatest)
 
